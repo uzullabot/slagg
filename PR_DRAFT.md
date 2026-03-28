@@ -1,86 +1,50 @@
-# PR タイトル
+# PR Title
 
-chore: 依存パッケージを最新安定版へアップグレード (2026-03)
+chore: 依存パッケージを最新安定版へアップグレード
 
----
-
-# PR 本文
+# PR Body
 
 ## 概要
 
-`chore/dependency-upgrade-2026-03` ブランチで、全依存パッケージを最新安定版へアップグレードしました。
-すべての既存テスト (323件) が通過しています。
+依存パッケージを見直し、可能な範囲で最新安定版へアップグレードしました。
+主に Slack SDK / Biome / Vitest を更新し、メジャーアップデートに伴うテスト互換修正を加えています。
 
 ## 変更内容
 
-### patch / minor アップグレード（後方互換）
+- `@slack/socket-mode` を `2.0.6` へ更新
+- `@slack/web-api` を `7.15.0` へ更新
+- `@biomejs/biome` を `2.4.9` へ更新
+- `vitest` を `4.1.2` へ更新
+- Biome v2 向けに `biome.json` を更新
+- Vitest v4 に合わせて `test/team/TeamManager.test.js` のクラスモック実装を修正
+- 軽微な lint 対応（未使用変数名など）
 
-| パッケージ | 旧バージョン | 新バージョン | 種別 |
-|---|---|---|---|
-| `@slack/socket-mode` | 2.0.5 | 2.0.6 | patch |
-| `@slack/web-api` | 7.10.0 | 7.15.0 | minor |
+## 背景・判断
 
-### major アップグレード
-
-#### `@biomejs/biome` 1.9.4 → 2.4.9
-
-- `biome migrate --write` により `biome.json` を v2 形式へ自動移行
-  - `organizeImports` セクション → `assist.actions.source.organizeImports`
-  - `files.include` / `files.ignore` → `files.includes`（否定プレフィックス形式）
-- v2 で新たに有効になった lint ルールへ対応（ソースコード修正）:
-  - `noUselessEscapeInRegex`: 正規表現内の不要なエスケープを除去
-  - `noUnusedFunctionParameters`: 未使用引数に `_` プレフィックスを付与
-  - `noUnusedVariables`: 未使用変数（catch 節の `error` 等）に `_` プレフィックスを付与
-  - インポート順序 (`organizeImports`) の自動整列
-
-#### `vitest` 1.6.1 → 4.1.2
-
-- **セキュリティ脆弱性を解消**: vitest 1.x が依存していた `esbuild ≤0.24.2`（moderate）、`rollup 4.0.0-4.58.0`（high）の脆弱性が 3件 → 0件に
-- **破壊的変更への対応**: vitest v4 では `vi.fn().mockImplementation()` でクラス（コンストラクタ）をモックする場合、アロー関数が `new` できないため `function` キーワードが必要
-  - `test/team/SlackClient.test.js`: `SocketModeClient` / `WebClient` のモック実装を修正
-  - `test/team/TeamManager.test.js`: `SlackClient` のモック実装を修正
-
-### 見送り項目
-
-| パッケージ | 現在 | 最新 | 理由 |
-|---|---|---|---|
-| `chalk` | 5.6.2 | 5.6.2 | すでに最新。`^5.3.0` の範囲内で最新版が使用済み |
+- まず patch/minor 相当の安全な更新を優先しました
+- `Biome` と `Vitest` はメジャー更新ですが、追随コストが限定的だったため今回まとめて更新しました
+- `Vitest` 更新後に `TeamManager` テストが失敗したため、Vitest v4 のクラスモック仕様差分に合わせて修正しています
 
 ## 検証結果
 
-```
-> npm test
+実行コマンド:
 
-> slagg@1.0.0 check
-> biome check src/
-
-Checked 10 files in 17ms. No fixes applied.
-
- RUN  v4.1.2 /home/zishida/dev/slagg
-
- ✓ test/team/TeamManager.test.js        (35 tests)
- ✓ test/team/SlackClient.test.js        (69 tests)
- ✓ test/integration/error-scenarios.test.js (11 tests)
- ✓ test/config/ConfigurationManager.test.js (59 tests)
- ✓ test/message/MessageProcessor.test.js (23 tests)
- ✓ test/main.test.js                    (18 tests)
- ✓ test/message/handlers/ConsoleOutputHandler.test.js (20 tests)
- ✓ test/integration/basic-flow.test.js  (11 tests)
- ✓ test/message/handlers/SpeechHandler.test.js (24 tests)
- ✓ test/utils/Logger.test.js            (12 tests)
- ✓ test/message/handlers/NotificationHandler.test.js (15 tests)
- ✓ test/shutdown.test.js                (19 tests)
- ✓ test/config/example-validation.test.js (3 tests)
- ✓ test/message/MessageHandler.test.js  (4 tests)
-
- Test Files  14 passed (14)
-      Tests  323 passed (323)
-   Duration  996ms
+```bash
+npm install
+npm test
 ```
 
-`npm audit` 結果: **脆弱性 0件**（アップグレード前は 3件：moderate×2、high×1）
+結果:
+
+- `npm audit`: 0 vulnerabilities
+- `npm test`: 323 tests passed
 
 ## 影響範囲
 
-- 本番コードの動作ロジックに変更なし（lint/format 修正のみ）
-- テストの mock 実装のみ変更（テスト対象コードに変更なし）
+- CLI の主要機能には変更なし
+- 開発環境の依存関係とテスト基盤を最新化
+- テストコードのモック実装は Vitest v4 前提になりました
+
+## 補足
+
+README / MANUAL_QA の内容変更は今回必須ではなかったため、依存更新と互換修正に絞っています。
