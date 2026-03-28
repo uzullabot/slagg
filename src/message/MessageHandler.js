@@ -6,13 +6,13 @@ export class MessageHandler {
   /**
    * Handle a message - must be implemented by subclasses
    * @param {Object} _message - The message object to handle
-   * @param {string} message.team - Team name
-   * @param {string} message.channel - Channel name
-   * @param {string} message.channelId - Channel ID
-   * @param {string} message.user - User name
-   * @param {string} message.text - Message text
-   * @param {string} message.timestamp - Slack timestamp
-   * @param {Date} message.formattedTime - JavaScript Date object
+   * @param {string} _message.team - Team name
+   * @param {string} _message.channel - Channel name
+   * @param {string} _message.channelId - Channel ID
+   * @param {string} _message.user - User name
+   * @param {string} _message.text - Message text
+   * @param {string} _message.timestamp - Slack timestamp
+   * @param {Date} _message.formattedTime - JavaScript Date object
    * @returns {Promise<void>}
    */
   async handle(_message) {

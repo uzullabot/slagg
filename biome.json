@@ -29,10 +29,6 @@
     }
   },
   "files": {
-    "includes": [
-      "**/*.js",
-      "!**/node_modules/**",
-      "!**/dist/**"
-    ]
+    "includes": ["**/*.js"]
   }
 }
