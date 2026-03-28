@@ -78,7 +78,7 @@ export class SpeechHandler extends MessageHandler {
    * @param {Object} message - The message object
    * @private
    */
-  async _speakMessage(message) {
+  async _speakMessage(_message) {
     // Placeholder implementation
     // Future implementations could:
     // - Format the message for speech output

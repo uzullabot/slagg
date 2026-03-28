@@ -15,7 +15,7 @@ export class MessageHandler {
    * @param {Date} message.formattedTime - JavaScript Date object
    * @returns {Promise<void>}
    */
-  async handle(message) {
+  async handle(_message) {
     throw new Error('handle method must be implemented by subclass');
   }
 

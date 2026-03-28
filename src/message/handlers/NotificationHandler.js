@@ -60,7 +60,7 @@ export class NotificationHandler extends MessageHandler {
    * @param {Object} message - The message object
    * @private
    */
-  async _sendNotification(message) {
+  async _sendNotification(_message) {
     // Placeholder implementation
     // Future implementations could:
     // - Format the message for notification display

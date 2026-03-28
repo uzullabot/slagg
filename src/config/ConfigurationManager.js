@@ -139,7 +139,7 @@ export class ConfigurationManager {
    */
   isValidSlackAppToken(token) {
     // Slack App-Level Token format: xapp-1-xxxxx (can contain hyphens)
-    return /^xapp-1-[A-Za-z0-9\-]+$/.test(token);
+    return /^xapp-1-[A-Za-z0-9-]+$/.test(token);
   }
 
   /**
@@ -149,7 +149,7 @@ export class ConfigurationManager {
    */
   isValidSlackBotToken(token) {
     // Slack Bot Token format: xoxb-xxxxx (can contain hyphens)
-    return /^xoxb-[A-Za-z0-9\-]+$/.test(token);
+    return /^xoxb-[A-Za-z0-9-]+$/.test(token);
   }
 
   /**
