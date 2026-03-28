@@ -30,8 +30,6 @@
   },
   "files": {
     "includes": [
-      "**/src/**/*.js",
-      "**/test/**/*.js",
       "**/*.js",
       "!**/node_modules/**",
       "!**/dist/**"

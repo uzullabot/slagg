@@ -57,7 +57,7 @@ export class NotificationHandler extends MessageHandler {
   /**
    * Private method to send notification (placeholder)
    * This method can be extended in the future to implement actual notification logic
-   * @param {Object} message - The message object
+   * @param {Object} _message - The message object
    * @private
    */
   async _sendNotification(_message) {

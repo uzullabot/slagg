@@ -5,7 +5,7 @@
 export class MessageHandler {
   /**
    * Handle a message - must be implemented by subclasses
-   * @param {Object} message - The message object to handle
+   * @param {Object} _message - The message object to handle
    * @param {string} message.team - Team name
    * @param {string} message.channel - Channel name
    * @param {string} message.channelId - Channel ID
